@@ -107,19 +107,19 @@ loss = squared_loss
 for epoch in range(num_epochs):
     for X, y in data_iter(batch_size, features, labels):
 
-        print("w:",w.data,"b:",b.data )
+        # print("w:",w.data,"b:",b.data )
         # net 是激活函数
         # X:(10,2)
         # w权重:(2,1)
         # b偏移量:[0.]
         l = loss(net(X, w, b), y)  # X和y的小批量损失
-
         # 因为l形状是(batch_size,1)，而不是一个标量。l中的所有元素被加到一起，
         # 并以此计算关于[w,b]的梯度
         l.sum().backward()
 
         #随机梯度下降法，调整w权重和b偏移量
         sgd([w, b], lr, batch_size)  # 使用参数的梯度更新参数
+        print("loss:", float(l.mean()))
 
     # with 是在一个批次训练完成之后进行比较loss
     with torch.no_grad():

@@ -80,7 +80,7 @@ x,y = generate_train_data(weight,b,train_data_size)
 
 # 准备初始化数据
 w = torch.ones(1, requires_grad=True)
-b = torch.zeros(1, requires_grad=True)
+b = torch.ones(1, requires_grad=True)
 # 通过方法复制，方便后续进行维护调整
 net = linear_regression
 loss = loss_squared
