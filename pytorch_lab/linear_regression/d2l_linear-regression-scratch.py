@@ -119,10 +119,12 @@ for epoch in range(num_epochs):
 
         #随机梯度下降法，调整w权重和b偏移量
         sgd([w, b], lr, batch_size)  # 使用参数的梯度更新参数
-        print("loss:", float(l.mean()))
+        # print("loss:", float(l.mean()))
 
     # with 是在一个批次训练完成之后进行比较loss
     with torch.no_grad():
         # print("w:",w.data,"b:",b.data )
         train_l = loss(net(features, w, b), labels)
         print(f'epoch {epoch + 1}, loss {float(train_l.mean()):f}')
+
+print("w:",w.data,"b:",b.data )

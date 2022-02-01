@@ -6,10 +6,6 @@ from d2l import torch as d2l
 train_data_size = 1000
 # 最小批次的训练量
 batch_size = 10
-# 权重
-weight = 3.4
-# 偏移量
-b = 7
 # 学习率
 lr = 0.03
 # 测试循环次数
@@ -26,10 +22,13 @@ def generate_train_data(w,b,count):
         [Tensor]: 返回x和y比对数据
     """
     # x = torch.normal(mean=0, std=torch.linspace(0, 1,count))
-    x = torch.normal(0, 1, (count ,1))
-    y = x * w + b
-    y += torch.normal(0, 1, y.shape)
-    return x,y
+    features = torch.normal(0, 1, (count ,1))
+
+    # 模拟X和Y之间的关系
+    labels = features * w + b
+
+    labels += torch.normal(0, 0.4, labels.shape)
+    return features,labels
 
 def iterate_data(batch_size, x, y):
     """小批量获取测试数据，并对于提供测试数据进行打散处理
@@ -65,8 +64,12 @@ def sgd(params,lr,batch_size):
             param.grad.zero_()
 
 
+# 真实权重
+true_weight = 3.4
+# 真实偏置
+true_bias = 7
 # 获取测试数据集
-x,y = generate_train_data(weight,b,train_data_size)
+features,labels = generate_train_data(true_weight,true_bias,train_data_size)
 
 # 查看生成数据模型
 # d2l.set_figsize()
@@ -87,13 +90,12 @@ loss = loss_squared
 
 # 开始进行梯度下降计算
 for epoch in range(num_epochs):
-    for x,y in iterate_data(batch_size, x, y):
+    for features,labels in iterate_data(batch_size, features, labels):
         # 进行线性预测
-        predict_y = net(x,w,b)
+        predict_y = net(features,w,b)
 
         # 损失计算
-        l = loss(y, predict_y)
-        print(float(l.mean()))
+        l = loss(labels, predict_y)
         l.sum().backward()
 
         # 进行梯度下降
@@ -101,5 +103,7 @@ for epoch in range(num_epochs):
 
         # 打印每次批次之后的递进值
     with torch.no_grad():
-        train_loss = loss(y,net(x,w,b))
+        train_loss = loss(labels,net(features,w,b))
         print("epoch", epoch + 1, "loss", float(train_loss.mean()))
+
+print("w:",w.data,"b:",b.data )
