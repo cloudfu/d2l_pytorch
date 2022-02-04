@@ -2,6 +2,11 @@ import torch
 import random
 from d2l import torch as d2l
 
+import math
+print( math.exp(-2))
+pass
+
+
 # 需要生成训练数据的数量
 train_data_size = 1000
 # 最小批次的训练量
