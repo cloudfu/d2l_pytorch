@@ -88,7 +88,7 @@ def load_data_fashion_mnist(batch_size, resize=None):  #@save
     return (data.DataLoader(mnist_train, batch_size, shuffle=True),
             data.DataLoader(mnist_test, batch_size, shuffle=False))
 
-
+# commit
 train_iter, test_iter = load_data_fashion_mnist(32, resize=64)
 for X, y in train_iter:
     print(X.shape, X.dtype, y.shape, y.dtype)
