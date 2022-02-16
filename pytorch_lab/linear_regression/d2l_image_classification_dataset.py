@@ -15,8 +15,12 @@ print(os.getcwd())
 # 通过ToTensor实例将图像数据从PIL类型变换成32位浮点数格式，
 # 并除以255使得所有像素的数值均在0到1之间
 trans = transforms.ToTensor()
+# run
 mnist_train = torchvision.datasets.FashionMNIST(root="../../data", train=True, transform=trans, download=False)
 mnist_test = torchvision.datasets.FashionMNIST(root="../../data", train=False, transform=trans, download=False)
+# debug
+# mnist_train = torchvision.datasets.FashionMNIST(root="./d2l_pytorch/data", train=True, transform=trans, download=False)
+# mnist_test = torchvision.datasets.FashionMNIST(root="./d2l_pytorch/data", train=False, transform=trans, download=False)
 
 print("mnist_train", len(mnist_train))
 print("mnist_test", len(mnist_test))
@@ -56,13 +60,16 @@ def show_images(imgs, num_rows, num_cols, titles=None, scale=1.5):  #@save
 # 获取批量训练数据
 # mnist_train[0][0].shape = torch.Size([1, 28, 28]) 
 # 一共10000组训练数据，每组数据包括18个图像，28*28个像素
-# X.shape = (18,1,28,28)
+# X:为18张图像，X.shape = (18,1,28,28)
+# y:为Lable索引
 X, y = next(iter(data.DataLoader(mnist_train, batch_size=18)))
 
 # 获取y对应的标签名称
 titles=get_fashion_mnist_labels(y)
+
+# 
 show_images(X.reshape(18, 28, 28), 2, 9, titles=get_fashion_mnist_labels(y))
-# d2l.plt.show()
+d2l.plt.show()
 
 batch_size = 256
 
@@ -84,8 +91,13 @@ def load_data_fashion_mnist(batch_size, resize=None):  #@save
     if resize:
         trans.insert(0, transforms.Resize(resize))
     trans = transforms.Compose(trans)
+    # run
     mnist_train = torchvision.datasets.FashionMNIST(root="../../data", train=True, transform=trans, download=False)
     mnist_test = torchvision.datasets.FashionMNIST(root="../../data", train=False, transform=trans, download=False)
+    # debug
+    # mnist_train = torchvision.datasets.FashionMNIST(root="./d2l_pytorch/data", train=True, transform=trans, download=False)
+    # mnist_test = torchvision.datasets.FashionMNIST(root="./d2l_pytorch/data", train=False, transform=trans, download=False)
+
 
     # 需要删除 num_workers=get_dataloader_workers() 入参，不然Windows平台运行会有错误
     return (data.DataLoader(mnist_train, batch_size, shuffle=True),
