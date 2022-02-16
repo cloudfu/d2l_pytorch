@@ -1,3 +1,4 @@
+import os
 import torch
 import torchvision
 from torch.utils import data
@@ -9,11 +10,13 @@ from torchvision import transforms
 # 可以提高显示清晰度
 # d2l.use_svg_display()
 
+print(os.getcwd())
+
 # 通过ToTensor实例将图像数据从PIL类型变换成32位浮点数格式，
 # 并除以255使得所有像素的数值均在0到1之间
 trans = transforms.ToTensor()
-mnist_train = torchvision.datasets.FashionMNIST(root="../data", train=True, transform=trans, download=False)
-mnist_test = torchvision.datasets.FashionMNIST(root="../data", train=False, transform=trans, download=False)
+mnist_train = torchvision.datasets.FashionMNIST(root="../../data", train=True, transform=trans, download=False)
+mnist_test = torchvision.datasets.FashionMNIST(root="../../data", train=False, transform=trans, download=False)
 
 print("mnist_train", len(mnist_train))
 print("mnist_test", len(mnist_test))
@@ -33,7 +36,7 @@ def show_images(imgs, num_rows, num_cols, titles=None, scale=1.5):  #@save
 
     # 设定当前图标可支持多少图形容器
     _, axes = d2l.plt.subplots(num_rows, num_cols, figsize=figsize)
-
+# 、
     # 压平程一维容器 从 (0,)(0,1)(1,0)(1,1) -> (1,2,3,4)
     axes = axes.flatten()
     for i, (ax, img) in enumerate(zip(axes, imgs)):
@@ -81,8 +84,8 @@ def load_data_fashion_mnist(batch_size, resize=None):  #@save
     if resize:
         trans.insert(0, transforms.Resize(resize))
     trans = transforms.Compose(trans)
-    mnist_train = torchvision.datasets.FashionMNIST(root="../data", train=True, transform=trans, download=False)
-    mnist_test = torchvision.datasets.FashionMNIST(root="../data", train=False, transform=trans, download=False)
+    mnist_train = torchvision.datasets.FashionMNIST(root="../../data", train=True, transform=trans, download=False)
+    mnist_test = torchvision.datasets.FashionMNIST(root="../../data", train=False, transform=trans, download=False)
 
     # 需要删除 num_workers=get_dataloader_workers() 入参，不然Windows平台运行会有错误
     return (data.DataLoader(mnist_train, batch_size, shuffle=True),
