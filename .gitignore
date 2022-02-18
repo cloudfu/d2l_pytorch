@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+pytorch_sample/classifier/data/MNIST/raw/t10k-images-idx3-ubyte
+pytorch_sample/classifier/data/MNIST/raw/t10k-images-idx3-ubyte.gz
+pytorch_sample/classifier/data/MNIST/raw/t10k-labels-idx1-ubyte
+pytorch_sample/classifier/data/MNIST/raw/t10k-labels-idx1-ubyte.gz
+pytorch_sample/classifier/data/MNIST/raw/train-images-idx3-ubyte
+pytorch_sample/classifier/data/MNIST/raw/train-images-idx3-ubyte.gz
+pytorch_sample/classifier/data/MNIST/raw/train-labels-idx1-ubyte
+pytorch_sample/classifier/data/MNIST/raw/train-labels-idx1-ubyte.gz
