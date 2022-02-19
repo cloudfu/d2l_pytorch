@@ -1,8 +1,11 @@
+import sys
 import torch
 import torchvision
 from torch.utils.data import DataLoader
+import numpy as np
 
 # https://zhuanlan.zhihu.com/p/137571225
+# https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#sphx-glr-beginner-blitz-cifar10-tutorial-py
 
 n_epochs = 3
 batch_size_train = 64
@@ -34,14 +37,23 @@ test_loader = torch.utils.data.DataLoader(
                         batch_size=batch_size_test, shuffle=True)
 
 
+# 1000个sample图片样例
+# example_data：[1000, 1, 28, 28]
 examples = enumerate(test_loader)
 batch_idx, (example_data, example_targets) = next(examples)
-print(example_targets)
-print(example_data.shape)
+
+print(train_loader.dataset)
+# # 图片为28*28像素
+# print(example_targets.shape)
+# print(example_targets)
+# print(example_data.shape)
+# sys.exit()
+
 
 
 import matplotlib.pyplot as plt
-fig = plt.figure()
+
+fig = plt.figure(figsize=(5,4))
 for i in range(6):
     plt.subplot(2,3,i+1)
     plt.tight_layout()
@@ -74,8 +86,7 @@ class Net(nn.Module):
         return F.log_softmax(x)
 
 network = Net()
-optimizer = optim.SGD(network.parameters(), lr=learning_rate,
-                      momentum=momentum)
+optimizer = optim.SGD(network.parameters(), lr=learning_rate,momentum=momentum)
 
 train_losses = []
 train_counter = []
@@ -100,10 +111,14 @@ def train(epoch):
             # )
             train_losses.append(loss.item())
             train_counter.append((batch_idx*64) + ((epoch-1)*len(train_loader.dataset)))
+
+            # 存储训练模型
             torch.save(network.state_dict(), './model.pth')
             torch.save(optimizer.state_dict(), './optimizer.pth')
           
-# train(1)
+train(1)
+
+sys.exit()
 
 
 def test():
