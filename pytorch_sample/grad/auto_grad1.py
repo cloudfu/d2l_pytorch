@@ -36,6 +36,7 @@ for t in range(2000):
     # gradient of loss with respect to all Tensors with requires_grad=True.
     # After this call a.grad, b.grad. c.grad and d.grad will be Tensors holding
     # the gradient of the loss with respect to a, b, c, d respectively.
+    # 计算每个张量的梯度
     loss.backward()
 
     # Manually update weights using gradient descent. Wrap in torch.no_grad()
