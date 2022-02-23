@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import sys
 import requests
@@ -7,6 +8,8 @@ from torch import optim
 from torch.utils.data import TensorDataset
 from torch.utils.data import DataLoader
 
+
+print(os.getcwd())
 # loss_function
 loss_func = F.cross_entropy
 
@@ -127,7 +130,6 @@ train_dl = DataLoader(train_ds, batch_size=bs, shuffle=True)
 # 我们利用这一优势来使用更大的批量，并更快地计算损失。
 valid_ds = TensorDataset(x_valid, y_valid)
 valid_dl = DataLoader(valid_ds, batch_size=bs * 2)
-
 
 # 手动循环加载
 # for epoch in range(epochs):
