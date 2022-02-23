@@ -15,10 +15,10 @@ print(os.getcwd())
 # 通过ToTensor实例将图像数据从PIL类型变换成32位浮点数格式，
 # 并除以255使得所有像素的数值均在0到1之间
 trans = transforms.ToTensor()
+# debug 运行为当前项目root目录
+mnist_train = torchvision.datasets.FashionMNIST(root="./data", train=True, transform=trans, download=False)
+mnist_test = torchvision.datasets.FashionMNIST(root="./data", train=False, transform=trans, download=False)
 # run
-mnist_train = torchvision.datasets.FashionMNIST(root="../../data", train=True, transform=trans, download=False)
-mnist_test = torchvision.datasets.FashionMNIST(root="../../data", train=False, transform=trans, download=False)
-# debug
 # mnist_train = torchvision.datasets.FashionMNIST(root="./d2l_pytorch/data", train=True, transform=trans, download=False)
 # mnist_test = torchvision.datasets.FashionMNIST(root="./d2l_pytorch/data", train=False, transform=trans, download=False)
 
@@ -92,8 +92,8 @@ def load_data_fashion_mnist(batch_size, resize=None):  #@save
         trans.insert(0, transforms.Resize(resize))
     trans = transforms.Compose(trans)
     # run
-    mnist_train = torchvision.datasets.FashionMNIST(root="../../data", train=True, transform=trans, download=False)
-    mnist_test = torchvision.datasets.FashionMNIST(root="../../data", train=False, transform=trans, download=False)
+    mnist_train = torchvision.datasets.FashionMNIST(root="./data", train=True, transform=trans, download=False)
+    mnist_test = torchvision.datasets.FashionMNIST(root="./data", train=False, transform=trans, download=False)
     # debug
     # mnist_train = torchvision.datasets.FashionMNIST(root="./d2l_pytorch/data", train=True, transform=trans, download=False)
     # mnist_test = torchvision.datasets.FashionMNIST(root="./d2l_pytorch/data", train=False, transform=trans, download=False)

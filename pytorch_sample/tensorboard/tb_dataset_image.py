@@ -1,4 +1,6 @@
 # imports
+import os
+import sys
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -10,17 +12,19 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 
+print(os.getcwd())
+
 # transforms
 transform = transforms.Compose(
     [transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))])
 
 # datasets
-trainset = torchvision.datasets.FashionMNIST('../../../data',
+trainset = torchvision.datasets.FashionMNIST(root="./data",
     download=True,
     train=True,
     transform=transform)
-testset = torchvision.datasets.FashionMNIST('../../../data',
+testset = torchvision.datasets.FashionMNIST(root="./data",
     download=True,
     train=False,
     transform=transform)
@@ -28,6 +32,7 @@ testset = torchvision.datasets.FashionMNIST('../../../data',
 # dataloaders
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
                                         shuffle=True)
+
 
 testloader = torch.utils.data.DataLoader(testset, batch_size=4,
                                         shuffle=False)
@@ -47,6 +52,15 @@ def matplotlib_imshow(img, one_channel=False):
         plt.imshow(npimg, cmap="Greys")
     else:
         plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    plt.show()
+
+# get some random training images
+dataiter = iter(trainloader)
+images, labels = dataiter.next()
+# create grid of images
+img_grid = torchvision.utils.make_grid(images)
+# show images
+matplotlib_imshow(img_grid, one_channel=True)
 
 class Net(nn.Module):
     def __init__(self):
@@ -67,7 +81,9 @@ class Net(nn.Module):
         x = self.fc3(x)
         return x
 
+
 net = Net()
+
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
@@ -75,17 +91,12 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 from torch.utils.tensorboard import SummaryWriter
 
 # default `log_dir` is "runs" - we'll be more specific here
-writer = SummaryWriter('runs/fashion_mnist_experiment_1')
+writer = SummaryWriter('./d2l_pytorch/pytorch_sample/tensorboard/runs/fashion_mnist_experiment_1')
 
-# get some random training images
-dataiter = iter(trainloader)
-images, labels = dataiter.next()
 
-# create grid of images
-img_grid = torchvision.utils.make_grid(images)
 
-# show images
-matplotlib_imshow(img_grid, one_channel=True)
+
+
 
 # write to tensorboard
 writer.add_image('four_fashion_mnist_images', img_grid)
